@@ -1,0 +1,30 @@
+{
+  "name": "CUDA",
+  // "image": "nvidia/cuda:11.7.0-runtime-ubuntu22.04", // https://hub.docker.com/r/nvidia/cuda/tags
+  "image": "nvidia/cuda:11.7.0-base-ubuntu22.04",
+  "runArgs": [ // https://blog.roboflow.com/nvidia-docker-vscode-pytorch/#:~:text=Nvidia%20is%20suggesting%20running%20the%20container%20with%20additional%20flags%20to%20improve%20performance%2C%20let%27s%20kill%20the%20container%20(ctrl%20%2B%20c)%20and%20re%2Drun%20it%20with%20the%20suggested%20flags.
+    "--gpus=all", "--ipc=host", "--ulimit memlock=-1"
+  ],
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/usr/local/cuda/bin",
+    "LD_LIBRARY_PATH": "$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64",
+    "XLA_FLAGS": "--xla_gpu_cuda_data_dir=/usr/local/cuda"
+  },
+  "updateContentCommand": "bash .devcontainer/install-dev-tools.sh",
+  "postCreateCommand": [
+    "nvidia-smi"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        "ms-toolsai.vscode-jupyter-cell-tags",
+        "ms-toolsai.jupyter-keymap",
+        "ms-toolsai.jupyter-renderers",
+        "ms-toolsai.vscode-jupyter-slideshow",
+        "ms-python.vscode-pylance"
+      ]
+    }
+  }
+}
